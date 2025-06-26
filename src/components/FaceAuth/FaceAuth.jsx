@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function FaceAuth({onLogin}) {
+function FaceAuth({ onLogin }) {
   const videoRef = useRef();
   const canvasRef = useRef();
   const [message, setMessage] = useState('Loading models...');
@@ -36,11 +36,12 @@ function FaceAuth({onLogin}) {
       });
       toast.success(res.data.message);
       setLoading(false)
-         onLogin();
+      onLogin();
       navigate('/home')
-     stopCamera(videoRef);
+      stopCamera(videoRef);
       console.log(res);
     } catch (error) {
+      setLoading(false)
       toast.error('Failed to save face!');
       console.error('Error saving face:', error);
     }
