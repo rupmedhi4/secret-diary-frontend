@@ -13,7 +13,7 @@ export default function DiaryEntries() {
   useEffect(() => {
     const fetchEntries = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/user/diary/data', {
+        const res = await axios.get('https://secret-diary-backend.onrender.com/api/user/diary/data', {
           withCredentials: true,
         });
 

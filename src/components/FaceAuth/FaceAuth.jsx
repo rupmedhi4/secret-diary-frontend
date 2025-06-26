@@ -29,7 +29,7 @@ function FaceAuth({ onLogin }) {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:5000/api/user/signup", {
+      const res = await axios.post("https://secret-diary-backend.onrender.com/api/user/signup", {
         faceId: JSON.stringify(Array.from(descriptor))
       }, {
         withCredentials: true
