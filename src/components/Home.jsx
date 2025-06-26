@@ -1,38 +1,39 @@
-import React from "react";
-import { Calendar } from "@/components/ui/calendar"; // You can use any calendar library
+import React, { useEffect, useState } from 'react';
+import Header from './Header';
+import DateSelector from './DateSelector';
+import DiaryInput from './DiaryInput';
+import DiaryEntries from './DiaryEntries';
+import { BsFillHeartFill } from "react-icons/bs";
 
-export default function Home() {
+
+
+export default function DiaryHome({ setCookie }) {
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
+  const [showInput, setShowInput] = useState(false);
+
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Top Bar */}
-      <div className="flex justify-between items-center bg-white shadow px-6 py-4">
-        <h1 className="text-2xl font-bold text-gray-800">📖 Secret Diary</h1>
-        <Button className="bg-red-500 hover:bg-red-600 text-white flex gap-2 items-center">
-          <LogOut className="w-4 h-4" />
-          Logout
-        </Button>
+    <div className="min-h-screen w-full bg-gradient-to-bl from-rose-100 via-pink-100 to-fuchsia-100 p-6 text-gray-800">
+      <Header setCookie={setCookie} />
+      <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+
+      <div className="text-center my-6">
+        <button
+          onClick={() => setShowInput(!showInput)}
+          className="bg-pink-500 text-white px-6 py-3 rounded shadow hover:bg-pink-600 transition"
+        >
+        <div className='flex items-center gap-4 cursor-pointer'>
+          <BsFillHeartFill className='text-red-900 text-xl'/>
+          Write Today’s Diary
+        </div>
+        </button>
       </div>
 
-      {/* Main Layout */}
-      <div className="flex flex-1 p-6 gap-6">
-        {/* Calendar */}
-        <div className="w-1/3 bg-white rounded-lg shadow p-4">
-          <h2 className="text-lg font-semibold text-gray-700 mb-4">📅 Select Date</h2>
-          <Calendar mode="single" selected={new Date()} onSelect={() => {}} className="rounded-md border" />
-        </div>
+      {showInput && (
+        <DiaryInput selectedDate={selectedDate} setShowInput={setShowInput} />
+      )}
 
-        {/* Diary Entry Area */}
-        <div className="w-2/3 bg-white rounded-lg shadow p-6 flex flex-col">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">📝 Your Diary</h2>
-          <textarea
-            placeholder="Write your secrets here..."
-            className="flex-1 p-4 text-gray-700 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-          ></textarea>
-          <Button className="mt-4 self-end bg-blue-500 hover:bg-blue-600 text-white">
-            Save Entry
-          </Button>
-        </div>
-      </div>
+      <DiaryEntries />
     </div>
   );
 }

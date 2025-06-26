@@ -72,7 +72,7 @@ function FaceAuth({onLogin}) {
       <div className="flex gap-4 justify-center mt-4">
         <button
           onClick={authFace}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50  cursor-pointer"
           disabled={loading === true}
         >
           {loading === true ? "Please wait, we are scanning your face..." : "Please Authenticate Your Face"}
