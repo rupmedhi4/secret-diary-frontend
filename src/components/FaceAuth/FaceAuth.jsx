@@ -5,12 +5,16 @@ import useFaceDetection from './useFaceDetection';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDiary } from '../../Context/DiaryContext';
+import Cookies from 'js-cookie';
 
-function FaceAuth({ onLogin }) {
+
+function FaceAuth() {
   const videoRef = useRef();
   const canvasRef = useRef();
   const [message, setMessage] = useState('Loading models...');
   const [loading, setLoading] = useState('false');
+  const { token, setToken } = useDiary()
 
   const navigate = useNavigate()
 
@@ -29,16 +33,16 @@ function FaceAuth({ onLogin }) {
       return;
     }
     try {
-      const res = await axios.post("https://secret-diary-backend.onrender.com/api/user/signup", {
+      const res = await axios.post(`http://localhost:5000/api/user/signup`, {
         faceId: JSON.stringify(Array.from(descriptor))
       }, {
         withCredentials: true
       });
       toast.success(res.data.message);
-      setLoading(false)
-      onLogin();
+      setToken(Cookies.get('jwt'))
       navigate('/home')
       stopCamera(videoRef);
+      setLoading(false)
       console.log(res);
     } catch (error) {
       setLoading(false)

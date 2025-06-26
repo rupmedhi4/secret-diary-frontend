@@ -4,11 +4,12 @@ import useLogout from '../customHook/useLogout';
 import { useNavigate } from 'react-router-dom';
 import useGreeting from '../customHook/useGreeting';
 import Cookies from 'js-cookie';
+import { useDiary } from '../Context/DiaryContext';
 
-export default function Header({ setCookie }) {
+export default function Header() {
   const navigate = useNavigate()
   const [greeting, setGreeting] = useState('');
-
+const{token,setToken}=useDiary()
 
   useEffect(() => {
     useGreeting(setGreeting)
@@ -16,7 +17,7 @@ export default function Header({ setCookie }) {
 
   const logoutHandler = () => {
     Cookies.remove('jwt');
-    setCookie()
+    setToken(null)
     navigate("/")
   }
 

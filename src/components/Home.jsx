@@ -7,14 +7,14 @@ import { BsFillHeartFill } from "react-icons/bs";
 
 
 
-export default function DiaryHome({ setCookie }) {
+export default function DiaryHome() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
   const [showInput, setShowInput] = useState(false);
 
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-bl from-rose-100 via-pink-100 to-fuchsia-100 p-6 text-gray-800">
-      <Header setCookie={setCookie} />
+      <Header  />
       <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
 
       <div className="text-center my-6">
