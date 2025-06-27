@@ -7,13 +7,14 @@ import { useDiary } from './Context/DiaryContext';
 import SingleEntries from './components/SingleEntries';
 
 function App() {
-const {token,setToken } =useDiary()
-console.log(token);
+  const { token, setToken } = useDiary()
+  console.log(token);
 
   useEffect(() => {
+
     const jwt = Cookies.get('jwt');
-    console.log("jwt",jwt);
-    
+    console.log("jwt", jwt);
+
     setToken(jwt);
   }, []);
 
@@ -25,19 +26,19 @@ console.log(token);
             <Route
               path="/"
               element={
-                token ? <Navigate to="/home" /> : <FaceAuth  />
+                token ? <Navigate to="/home" /> : <FaceAuth />
               }
             />
             <Route
               path="/home"
               element={
-                token ? <Home/> : <Navigate to="/" />
+                token ? <Home /> : <Navigate to="/" />
               }
             />
             <Route
               path="/home/entries/:id"
               element={
-                token ? <SingleEntries/> : <Navigate to="/" />
+                token ? <SingleEntries /> : <Navigate to="/" />
               }
             />
           </Routes>
