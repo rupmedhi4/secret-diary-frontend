@@ -13,7 +13,7 @@ export default function DiaryInput({ selectedDate, setShowInput }) {
       text: entryText
     };
 
-    const res = await axios.post(`http://localhost:5000/api/user/diary/entries`, newEntry, {
+    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/user/diary/entries`, newEntry, {
       withCredentials: true
     });
     console.log(res);
