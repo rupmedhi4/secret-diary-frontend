@@ -29,18 +29,7 @@ export default function SingleEntries() {
     }
 
     if (!found) {
-        return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-pink-50 text-center text-gray-700 px-4">
-                <h2 className="text-2xl font-semibold mb-2">No Entry Found</h2>
-                <p className="text-sm mb-4">We couldn't find any entry with this ID.</p>
-                <button
-                    onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 px-4 py-2 bg-pink-500 text-white rounded shadow hover:bg-pink-600"
-                >
-                    <FaArrowLeft /> Back
-                </button>
-            </div>
-        );
+       navigate("/")
     }
 
     return (
