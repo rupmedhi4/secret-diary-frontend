@@ -36,15 +36,12 @@ function FaceAuth() {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/user/signup`,
-        {
-          faceId: JSON.stringify(Array.from(descriptor)),
-        },
+          { faceId: Array.from(descriptor) },
         {
           withCredentials: true,
         }
       );
 
-      // ✅ Manually set token in cookie
       Cookies.set('jwt', res.data.token, {
         path: '/',
         secure: true,

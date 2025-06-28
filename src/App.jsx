@@ -16,7 +16,7 @@ function App() {
     console.log("jwt", jwt);
 
     setToken(jwt);
-  }, []);
+  }, [token]);
 
   return (
     <>
