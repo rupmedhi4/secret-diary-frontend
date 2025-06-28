@@ -8,50 +8,67 @@ import { useNavigate } from 'react-router-dom';
 import { useDiary } from '../../Context/DiaryContext';
 import Cookies from 'js-cookie';
 
-
 function FaceAuth() {
   const videoRef = useRef();
   const canvasRef = useRef();
   const [message, setMessage] = useState('Loading models...');
-  const [loading, setLoading] = useState('false');
-  const { token, setToken } = useDiary()
-
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false); // ✅ FIXED
+  const { setToken } = useDiary();
+  const navigate = useNavigate();
 
   useFaceDetection(videoRef, canvasRef, setMessage);
 
   useEffect(() => {
     startCamera(videoRef);
+    return () => stopCamera(videoRef); // ✅ Clean up on unmount
   }, []);
 
   const authFace = async () => {
-    setLoading(true)
-    const descriptor = await getLiveDescriptor(videoRef);
+    setLoading(true);
 
+    const descriptor = await getLiveDescriptor(videoRef);
     if (!descriptor) {
       toast.error('No face detected!');
+      setLoading(false);
       return;
     }
+
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/user/signup`, {
-        faceId: JSON.stringify(Array.from(descriptor))
-      }, {
-        withCredentials: true
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/user/signup`,
+        {
+          faceId: JSON.stringify(Array.from(descriptor)),
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      // ✅ Manually set token in cookie
+      Cookies.set('jwt', res.data.token, {
+        path: '/',
+        secure: true,
+        sameSite: 'None',
+        expires: 14,
       });
-      toast.success(res.data.message);
-      setToken(Cookies.get('jwt'))
-      navigate('/home')
+
+      const token = Cookies.get('jwt');
+      if (!token) {
+        toast.error('Token not set!');
+      } else {
+        setToken(token);
+        navigate('/home');
+        toast.success(res.data.message);
+      }
+
       stopCamera(videoRef);
-      setLoading(false)
-      console.log(res);
     } catch (error) {
-      setLoading(false)
-      toast.error('Failed to save face!');
       console.error('Error saving face:', error);
+      toast.error('Failed to authenticate face!');
+    } finally {
+      setLoading(false); // ✅ Always set loading to false
     }
   };
-
-
 
   return (
     <div className="bg-white p-6 rounded shadow text-center">
@@ -77,13 +94,14 @@ function FaceAuth() {
       <div className="flex gap-4 justify-center mt-4">
         <button
           onClick={authFace}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50  cursor-pointer"
-          disabled={loading === true}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50 cursor-pointer"
+          disabled={loading}
         >
-          {loading === true ? "Please wait, we are scanning your face..." : "Please Authenticate Your Face"}
+          {loading
+            ? 'Please wait, we are scanning your face...'
+            : 'Please Authenticate Your Face'}
         </button>
       </div>
-
     </div>
   );
 }
