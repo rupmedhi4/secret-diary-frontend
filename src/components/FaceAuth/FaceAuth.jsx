@@ -12,7 +12,7 @@ function FaceAuth() {
   const videoRef = useRef();
   const canvasRef = useRef();
   const [message, setMessage] = useState('Loading models...');
-  const [loading, setLoading] = useState(false); // ✅ FIXED
+  const [loading, setLoading] = useState(false)
   const { setToken } = useDiary();
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ function FaceAuth() {
 
   useEffect(() => {
     startCamera(videoRef);
-    return () => stopCamera(videoRef); // ✅ Clean up on unmount
+    return () => stopCamera(videoRef);
   }, []);
 
   const authFace = async () => {
@@ -36,7 +36,7 @@ function FaceAuth() {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/user/signup`,
-          { faceId: Array.from(descriptor) },
+        { faceId: Array.from(descriptor) },
         {
           withCredentials: true,
         }

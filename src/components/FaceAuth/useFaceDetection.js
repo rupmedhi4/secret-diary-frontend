@@ -1,4 +1,3 @@
-// useFaceDetection.js
 import { useEffect } from 'react';
 import * as faceapi from 'face-api.js';
 

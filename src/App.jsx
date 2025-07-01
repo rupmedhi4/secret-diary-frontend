@@ -8,10 +8,10 @@ import SingleEntries from './components/SingleEntries';
 
 function App() {
   const { token, setToken } = useDiary()
-  const [loading,setLoading]=useState(true)
+  const [loading, setLoading] = useState(true)
   console.log(token);
 
- useEffect(() => {
+  useEffect(() => {
     const jwt = Cookies.get('jwt');
     if (jwt) {
       setToken(jwt);
